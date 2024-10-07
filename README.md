@@ -31,12 +31,12 @@ This project is a full-stack web application developed using **Laravel** for the
 ### Frontend (Next.js)
 - React (Next.js 13.x)
 - Tailwind CSS
+- Redux
+- Rxjs
 - Context API (for global state management)
 - Axios (for API requests)
+- Aos
 
-### Additional Tools
-- Docker (for containerization)
-- Git (for version control)
 
 ## Database Explanation
 
@@ -58,7 +58,8 @@ This application uses **MySQL** as the relational database management system. Be
      - `user_id`: Foreign key that references the `id` in the `users` table, linking tasks to users.
      - `title`: The title of the task.
      - `description`: Detailed description of the task.
-     - `status`: Task status (e.g., pending, completed).
+     - `state`: Task status (e.g., pending, completed).
+     - `priority`: priority.
      - `created_at` and `updated_at`: Timestamps for tracking task creation and updates.
 
 
@@ -83,17 +84,14 @@ php artisan migrate
 - **Node.js** (>= 14.x)
 - **npm** or **yarn** (for Next.js)
 - **MySQL** or other relational database
-- **Docker** (optional but recommended)
 
 ### Backend Setup (Laravel)
 
-
 1. Clone the repository:
 
-
 ```bash
-git clone https://github.com/your-username/ms-crud.git
-cd ms-crud
+git clone https://github.com/estebiart/TaskManagerMonolite.git
+cd mscrud
 ```
 
 ## Installation and Setup
@@ -131,13 +129,14 @@ php artisan jwt:secret
 ```bash
   php artisan serve
 ```
-Frontend Setup (Next.js)
+# Frontend Setup (Next.js)
+
 Navigate to the frontend directory:
 
 ```bash
 cd frontsm
 ```
-Install the dependencies:
+## Install the dependencies:
 
 ```bash
 npm install
@@ -155,6 +154,7 @@ NEXT_PUBLIC_API_URL=http://localhost:8000/api
 ```bash
 npm run dev
 ```
+
 ## API Documentation
 The API is documented using Swagger. Once the Laravel server is running, you can access the documentation at:
 
