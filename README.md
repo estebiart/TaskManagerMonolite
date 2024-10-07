@@ -12,9 +12,6 @@ This project is a full-stack web application developed using **Laravel** for the
 - **Task Management**:
   - Users can create, update, delete, and retrieve tasks.
 
-- **File Upload**:
-  - Supports uploading files that are linked to tasks.
-
 - **API Documentation**:
   - The API is documented using **Swagger** for easy reference and testing.
 
@@ -64,13 +61,6 @@ This application uses **MySQL** as the relational database management system. Be
      - `status`: Task status (e.g., pending, completed).
      - `created_at` and `updated_at`: Timestamps for tracking task creation and updates.
 
-3. **file_uploads**:
-   - Stores uploaded files linked to tasks:
-     - `id`: Primary key.
-     - `task_id`: Foreign key that references the `id` in the `tasks` table, associating files with tasks.
-     - `file_path`: Path to the uploaded file.
-     - `file_type`: The type of the uploaded file (e.g., PDF, image).
-     - `created_at` and `updated_at`: Timestamps for tracking file uploads.
 
 ### Relationships
 
