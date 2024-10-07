@@ -133,6 +133,7 @@ php artisan jwt:secret
 
 Navigate to the frontend directory:
 
+
 ```bash
 cd frontsm
 ```
@@ -148,6 +149,48 @@ Create a .env.local file and define your API URLs, such as:
 ```bash
 NEXT_PUBLIC_API_URL=http://localhost:8000/api
 ```
+# Configuración de MySQL y Laravel
+
+## 1. Configuración de MySQL
+- Asegúrate de tener **MySQL** instalado y configurado en tu sistema.
+- Abre tu cliente MySQL (como **MySQL Workbench** o la línea de comandos).
+
+## 2. Creación de la Base de Datos
+Ejecuta el siguiente comando en tu cliente MySQL para crear la base de datos:
+
+```sql
+CREATE DATABASE backendsm;
+```
+## 3. Configuración del Archivo .env
+Abre el archivo .env de tu proyecto Laravel.
+Comenta o elimina la configuración actual de SQLite y descomenta y ajusta la configuración para MySQL:
+
+```dotenv
+Copy code
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=backendsm
+DB_USERNAME=root
+DB_PASSWORD=
+```
+## 4. Configuración del Correo
+Asegúrate de que la configuración del correo en el archivo .env esté establecida correctamente:
+
+```dotenv
+Copy code
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+## 5. Guardar y Aplicar Configuraciones
+Guarda los cambios realizados en tu archivo .env.
+Reinicia tu servidor local para que los cambios surtan efecto.
 
 ## Run the development server:
 
