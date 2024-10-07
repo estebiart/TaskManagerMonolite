@@ -103,14 +103,12 @@ cd ms-crud
 ### Install dependencies:
 
 ```bash
-Copy code
 composer install
 ```
 
 ### Set up the environment:
 
 ```bash
-Copy code
 php artisan key:generate
 ```
 ### Configure your .env file for database connection, JWT, and Mailgun settings.
@@ -118,35 +116,30 @@ php artisan key:generate
 Run the migrations to create the database tables:
 
 ```bash
-Copy code
 php artisan migrate
 ```
 
-### Install JWT and publish the configuration:
+### Install JWT and publish the configuration:
 
 ```bash
-Copy code
 composer require tymon/jwt-auth
 php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
 php artisan jwt:secret
 ```
-Serve the backend:
+### Serve the backend:
 
 ```bash
-  Copy code
   php artisan serve
 ```
 Frontend Setup (Next.js)
 Navigate to the frontend directory:
 
 ```bash
-Copy code
 cd frontsm
 ```
 Install the dependencies:
 
 ```bash
-Copy code
 npm install
 ```
 Configure environment variables for API endpoints and JWT:
@@ -154,21 +147,18 @@ Configure environment variables for API endpoints and JWT:
 Create a .env.local file and define your API URLs, such as:
 
 ```bash
-Copy code
 NEXT_PUBLIC_API_URL=http://localhost:8000/api
 ```
 
 ## Run the development server:
 
 ```bash
-Copy code
 npm run dev
 ```
 ## API Documentation
 The API is documented using Swagger. Once the Laravel server is running, you can access the documentation at:
 
 ```bash
-Copy code
 http://localhost:8000/api/documentation
 ```
 ## Routes
