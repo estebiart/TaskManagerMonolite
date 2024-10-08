@@ -8,24 +8,17 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Task; 
 
 class HighPriorityNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public string $recipientName;
-    public string $messageBody;
 
-    /**
-     * Create a new message instance.
-     *
-     * @param string $recipientName
-     * @param string $messageBody
-     */
-    public function __construct(string $recipientName, string $messageBody)
+ 
+    public function __construct(Task $task)
     {
-        $this->recipientName = $recipientName;
-        $this->messageBody = $messageBody;
+    
     }
 
     /**
@@ -34,7 +27,7 @@ class HighPriorityNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'High Priority Notification',
+            subject: 'Notificación de Tarea de Alta Prioridad',
         );
     }
 
@@ -44,11 +37,7 @@ class HighPriorityNotification extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.high_priority_notification', 
-            with: [
-                'name' => $this->recipientName,
-                'message' => $this->messageBody,
-            ],
+            view: 'emails.high_priority', // Usa tu vista específica aquí
         );
     }
 

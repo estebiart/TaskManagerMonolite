@@ -4,10 +4,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\HighPriorityNotification;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
+
 
 class TaskController extends Controller
 {
@@ -79,39 +86,53 @@ class TaskController extends Controller
      *         description="Unauthorized"
      *     )
      * )
-     */public function store(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'title' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'deadline' => 'required|date',
-        'status' => 'required|in:pending,in_progress,completed',
-        'priority' => 'nullable|in:low,medium,high',
-    ]);
-
-    if ($validator->fails()) {
-        return response()->json($validator->errors(), 400);
-    }
-
-    $task = Task::create([
-        'title' => $request->title,
-        'description' => $request->description,
-        'deadline' => $request->deadline,
-        'status' => $request->status,
-        'priority' => $request->priority,
-        'user_id' => $request->user_id, 
-    ]);
-
-    if ($task->priority === 'high') {
-        try {
-            Mail::to(auth()->user()->email)->send(new HighPriorityNotification($task->user->name, $task->description));
-        } catch (\Exception $e) {
-            \Log::error('Email could not be sent: ' . $e->getMessage());
+     */
+    public function store(Request $request)
+    {
+        DB::enableQueryLog();
+    
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'deadline' => 'required|date',
+            'status' => 'required|in:pending,in_progress,completed',
+            'priority' => 'nullable|in:low,medium,high',
+            'user_id' => 'required|exists:users,id'
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
         }
-    }
+    
+        $task = Task::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'deadline' => $request->deadline,
+            'status' => $request->status,
+            'priority' => $request->priority,
+            'user_id' => $request->user_id,
+        ]);
+    
+        if ($task->priority === 'high') {
+            try {
+                if (Auth::check()) {
+                    $user = Auth::user();
+                    $data = json_decode($user);
+                    $email = $data->email;
+                    Mail::to($email)->send(new HighPriorityNotification($task));
+                } else {
+                    return response()->json(['message' => 'Error al enviar el correo'], 500);
+                }
+            } catch (\Exception $e) {
+        
+                return response()->json(['message' => 'Error al enviar el correo: ' . $e->getMessage()], 500);
+            }
+        }
 
-    return response()->json($task, 201);
-}
+    
+        return response()->json($task, 201);
+    }
+    
 
     /**
      * @OA\Get(
@@ -255,4 +276,5 @@ class TaskController extends Controller
         $task->delete();
         return response()->json(['message' => 'Task deleted successfully']);
     }
+    
 }
